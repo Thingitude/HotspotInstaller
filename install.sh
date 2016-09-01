@@ -1,9 +1,9 @@
 echo "Upgrading"
-sudo apt-get update
-sudo apt-get upgrade
+#sudo apt-get update
+#sudo apt-get upgrade
 echo "Upgrade Complete"
 echo "Intalling libraries"
-sudo apt-get install aircrack-ng i2c-tools mosquitto mosquitto-clients pciutils tshark wiringPi
+#sudo apt-get install aircrack-ng i2c-tools mosquitto mosquitto-clients pciutils tshark wiringPi
 echo "Enabling I2C"
 echo '>>> Enable I2C'
 if grep -q 'i2c-bcm2708' /etc/modules; then
@@ -33,9 +33,8 @@ else
   echo 'File raspi-blacklist.conf does not exist, skip this step.'
 fi
 
-cd "~"
-rm rf Hotspot
-git clone https://github.com/SamKimbinyi/Hotspot.git
+
+git clone https://github.com/SamKimbinyi/Hotspot.git /home/pi/Hotspot
 
 echo "Setting up Auto Run"
 
@@ -44,7 +43,7 @@ echo "Setting up Cron Jobs"
 #write out current crontab
 #echo new cron into cron file
 echo "05 00 * * * python /home/pi/Hotspot/meantime.py day" > mycron
-echo "05 05 * * * sudo /home/pi/Hotspot/checkForUpdates.sh"
+echo "05 05 * * * sudo /home/pi/Hotspot/checkForUpdates.sh">>mycron
 echo "08 00 * * * python /home/pi/Hotspot/meantime.py refresh" >> mycron
 echo "00,30 * * * * sudo /home/pi/Hotspot/HotspotMonitor.sh send" >>mycron
 echo "10,20,40,50 * * * * sudo /home/pi/Hotspot/HotspotMonitor.sh">>mycron
