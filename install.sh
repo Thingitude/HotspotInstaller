@@ -1,9 +1,9 @@
 echo "Upgrading"
-#sudo apt-get update
-#sudo apt-get upgrade
+sudo apt-get update
+sudo apt-get upgrade
 echo "Upgrade Complete"
 echo "Intalling libraries"
-#sudo apt-get install aircrack-ng i2c-tools mosquitto mosquitto-clients pciutils tshark wiringPi
+sudo apt-get install aircrack-ng i2c-tools mosquitto mosquitto-clients pciutils tshark wiringPi
 echo "Enabling I2C"
 echo '>>> Enable I2C'
 if grep -q 'i2c-bcm2708' /etc/modules; then
@@ -36,13 +36,12 @@ fi
 
 git clone https://github.com/SamKimbinyi/Hotspot.git /home/pi/Hotspot
 
-echo "Setting up Auto Run"
 
-mv rc.local /etc/rc.local
 echo "Setting up Cron Jobs"
 #write out current crontab
 #echo new cron into cron file
 echo "05 00 * * * python /home/pi/Hotspot/meantime.py day" > mycron
+echo "@reboot sudo /home/pi/Hotspot/WifiMon.sh on" >>mycron
 echo "05 05 * * * sudo /home/pi/Hotspot/checkForUpdates.sh">>mycron
 echo "08 00 * * * python /home/pi/Hotspot/meantime.py refresh" >> mycron
 echo "00,30 * * * * sudo /home/pi/Hotspot/HotspotMonitor.sh send" >>mycron
